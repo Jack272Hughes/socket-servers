@@ -4,10 +4,11 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
 public class WebsocketServer {
-    private static final String WEBSOCKET_KEY_CONCATENATOR = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
+    private static final String WEBSOCKET_KEY_CONSTANT = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
     private static final String OUTPUT_HEADERS = "HTTP/1.1 101 Switching Protocols\r\n" +
         "Upgrade: websocket\r\n" +
         "Connection: Upgrade\r\n" +
@@ -31,13 +32,13 @@ public class WebsocketServer {
             }
 
             MessageDigest md = MessageDigest.getInstance("SHA-1");
-            byte[] hashedKey = md.digest((websocketKey + WEBSOCKET_KEY_CONCATENATOR).getBytes());
+            byte[] hashedKey = md.digest((websocketKey + WEBSOCKET_KEY_CONSTANT).getBytes());
             String secretKey = Base64.getEncoder().encodeToString(hashedKey);
 
             byte[] response = (OUTPUT_HEADERS + secretKey + "\r\n\r\n").getBytes();
             System.out.println(new String(response));
             out.write(response);
-        } catch (IOException e) {
+        } catch (IOException | NoSuchAlgorithmException e) {
             e.getMessage();
         }
     }
