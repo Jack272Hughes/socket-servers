@@ -1,0 +1,2 @@
+# socket-servers
+To help me practise Java, I was given the object to create an HTTP server. I decided to go one step further and created this server using the built in HTTPServer as well as creating my own version using Java's ServerSockets. As an added bonus I have also dabbled in setting up a server that can accept and open websocket connections although messaging across a connection is not correctly in place.
